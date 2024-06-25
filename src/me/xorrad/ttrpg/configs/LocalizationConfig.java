@@ -1,7 +1,8 @@
-package me.xorrad.ttrpg.localization;
+package me.xorrad.ttrpg.configs;
 
 import me.xorrad.lib.configs.Config;
 import me.xorrad.ttrpg.TTRPG;
+import me.xorrad.ttrpg.localization.Localization;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.InputStreamReader;

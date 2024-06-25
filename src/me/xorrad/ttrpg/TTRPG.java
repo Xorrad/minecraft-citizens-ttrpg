@@ -2,9 +2,12 @@ package me.xorrad.ttrpg;
 
 import me.xorrad.lib.LibMain;
 import me.xorrad.lib.configs.Config;
+import me.xorrad.ttrpg.commands.CultureCommand;
 import me.xorrad.ttrpg.commands.TestCommand;
+import me.xorrad.ttrpg.configs.CulturesConfig;
+import me.xorrad.ttrpg.core.Culture;
 import me.xorrad.ttrpg.localization.Localization;
-import me.xorrad.ttrpg.localization.LocalizationConfig;
+import me.xorrad.ttrpg.configs.LocalizationConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,7 +17,9 @@ import java.util.logging.Level;
 
 public class TTRPG extends JavaPlugin  {
     static TTRPG instance;
+
     private HashMap<String, Config> configs;
+    public HashMap<String, Culture> cultures;
 
     @Override
     public void onLoad() {
@@ -24,6 +29,7 @@ public class TTRPG extends JavaPlugin  {
 
     @Override
     public void onEnable() {
+        this.initVariables();
         this.registerCommands();
         this.registerEvents();
         this.initConfigurations();
@@ -34,8 +40,13 @@ public class TTRPG extends JavaPlugin  {
 
     }
 
+    private void initVariables() {
+        this.cultures = new HashMap<>();
+    }
+
     private void registerCommands() {
         new TestCommand().register();
+        new CultureCommand().register();
     }
 
     private void registerEvents() {
@@ -47,6 +58,8 @@ public class TTRPG extends JavaPlugin  {
 
         this.loadConfig("localization", new LocalizationConfig());
         Localization.setActiveConfig(this.getConfig("localization"));
+
+        this.loadConfig("cultures", new CulturesConfig());
     }
 
     public void loadConfig(String name, Config config) {

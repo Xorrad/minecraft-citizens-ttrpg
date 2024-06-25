@@ -1,13 +1,32 @@
 package me.xorrad.ttrpg.localization;
 
 import me.xorrad.lib.configs.Config;
-import me.xorrad.ttrpg.TTRPG;
 import org.bukkit.ChatColor;
 
 public enum Localization {
-    CHARACTER_MENU_TITLE;
+    CHARACTER_MENU_TITLE,
 
-    public String format;
+    CULTURE_EXISTS,
+    CULTURE_DOESNT_EXISTS,
+    CULTURE_CREATED,
+    CULTURE_DELETED,
+    CULTURE_NO_MANUAL_NAMES,
+    CULTURE_NAME_ADDED,
+    CULTURE_NAME_REMOVED,
+    CULTURE_NAME_DOESNT_EXISTS,
+    CULTURE_SHOW,
+
+    NAMETYPE_INVALID,
+    NAMEMANAGER_INVALID,
+    NAMEMANAGER_CHANGED,
+    NAMEMANAGER_TEMPLATE_UNSUPPORTED,
+    NAMEMANAGER_TEMPLATE_CHANGED,
+
+    ERROR,
+    SEPARATOR,
+    ;
+
+    private String format;
 
     public String format(Object... args) {
         return String.format(ChatColor.translateAlternateColorCodes('&', this.format), args);
