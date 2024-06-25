@@ -9,5 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="citizens-2.0.32" level="project" />
     <orderEntry type="library" name="spigot-api-1.20.1" level="project" />
+    <orderEntry type="module" module-name="minecraft-mimiclib" />
   </component>
 </module>

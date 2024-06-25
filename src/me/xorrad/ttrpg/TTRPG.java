@@ -2,6 +2,9 @@ package me.xorrad.ttrpg;
 
 import me.xorrad.lib.LibMain;
 import me.xorrad.lib.configs.Config;
+import me.xorrad.ttrpg.commands.TestCommand;
+import me.xorrad.ttrpg.localization.Localization;
+import me.xorrad.ttrpg.localization.LocalizationConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,7 +35,7 @@ public class TTRPG extends JavaPlugin  {
     }
 
     private void registerCommands() {
-
+        new TestCommand().register();
     }
 
     private void registerEvents() {
@@ -41,6 +44,9 @@ public class TTRPG extends JavaPlugin  {
 
     private void initConfigurations() {
         this.configs = new HashMap<String, Config>();
+
+        this.loadConfig("localization", new LocalizationConfig());
+        Localization.setActiveConfig(this.getConfig("localization"));
     }
 
     public void loadConfig(String name, Config config) {
