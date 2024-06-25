@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Citizens-TTRPG-1.0">
+    <output-path>/run/user/1000/gvfs/smb-share:server=laptop-aymeric.local,share=medieval-rp/plugins</output-path>
+    <root id="archive" name="Citizens-TTRPG-1.0.jar">
+      <element id="module-output" name="minecraft-citizens-ttrpg" />
+    </root>
+  </artifact>
+</component>
