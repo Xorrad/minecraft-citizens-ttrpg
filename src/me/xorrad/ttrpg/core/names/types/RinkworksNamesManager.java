@@ -57,10 +57,11 @@ public class RinkworksNamesManager extends NamesManager {
     public void loadConfig(String configPath) {
         CulturesConfig config = (CulturesConfig) TTRPG.getInstance().getConfig("cultures");
 
-        for(NameType nameType : NameType.values())
-        {
-            String template = config.getString(configPath + ".name-manager.template." + nameType.name().toLowerCase());
-            this.setTemplate(nameType, template);
+        for(NameType nameType : NameType.values()) {
+            String key = configPath + ".name-manager.template." + nameType.name().toLowerCase();
+            if(config.contains(key)) {
+                this.setTemplate(nameType, config.getString(key));
+            }
         }
     }
 

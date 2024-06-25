@@ -16,5 +16,5 @@ NAMEMANAGER_CHANGED: '&eThe names manager type for &7%1$s&e is now &7%2$s&e.'
 NAMEMANAGER_TEMPLATE_UNSUPPORTED: '&eThe name manager for &7%s&e does not support generation template.'
 NAMEMANAGER_TEMPLATE_CHANGED: '&eThe &7%1$s &etemplate for &7%2$s&e is now &7"%3$s"&e.'
 
-ERROR: '§aAn error occurred, contact an administrator for further details.'
+ERROR: '§cAn error occurred, contact an administrator for further details.'
 SEPARATOR: '&e&m───────────────────'
