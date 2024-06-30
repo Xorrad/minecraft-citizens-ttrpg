@@ -25,6 +25,11 @@ public class CharacterStatsTrait extends Trait {
         this.stats.put(stat, value);
     }
 
+    public int getStatModifier(CharacterStats stat) {
+        int n = this.getStat(stat);
+        return (int) Math.floor(n / 2.0) - 5;
+    }
+
     @Override
     public void load(DataKey key) {
         for(CharacterStats stat : CharacterStats.values()) {

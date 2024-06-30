@@ -7,16 +7,14 @@ import me.xorrad.ttrpg.core.CharacterStats;
 import me.xorrad.ttrpg.core.traits.CharacterStatsTrait;
 import me.xorrad.ttrpg.localization.Localization;
 import me.xorrad.ttrpg.util.SkinUtil;
+import net.citizensnpcs.Citizens;
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.command.exception.CommandException;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Inventory;
-import net.citizensnpcs.api.util.Messaging;
 import net.citizensnpcs.editor.Editor;
 import net.citizensnpcs.editor.EquipmentEditor;
 import net.citizensnpcs.trait.Controllable;
 import net.citizensnpcs.trait.SitTrait;
-import net.citizensnpcs.util.Util;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -47,23 +45,13 @@ public class CharacterMenu {
                     .lore("§ePLACEHOLDER")
             );
 
-        int i = 0;
-        for(CharacterStats stat : CharacterStats.values()) {
-            CharacterStatsTrait trait = npc.getOrAddTrait(CharacterStatsTrait.class);
-            menu.set(9 + i, new Item()
-                .material(stat.getIcon())
-                .name("§e" + Localization.valueOf("STAT_" + stat.name()).format())
-                .lore("§e" + trait.getStat(stat))
-                .hideAttributes()
-            );
-            i++;
-        }
+        addCharacterStats(menu, npc);
 
-        for(i = 0; i < 9; i++) {
+        for(int i = 0; i < 9; i++) {
             menu.set(2*9 + i, new Item().material(Material.WHITE_STAINED_GLASS_PANE));
         }
 
-        for(i = 0; i < 9; i++) {
+        for(int i = 0; i < 9; i++) {
             menu.set(4*9 + i, new Item().material(Material.WHITE_STAINED_GLASS_PANE));
         }
 
@@ -71,7 +59,7 @@ public class CharacterMenu {
                         .material(Material.SADDLE)
                         .name("Mount")
                         .lore("§eClick to mount character.")
-                        .onClick((p, m) -> {
+                        .leftClick((p, m) -> {
                             if (!npc.isSpawned()) {
                                 player.sendMessage("§cFailed to mount character because it is not spawned.");
                                 return ItemClickResult.NO_RESULT;
@@ -90,7 +78,7 @@ public class CharacterMenu {
                 .material(Material.CHEST)
                 .name("Inventory")
                 .lore("§eClick to open this character's inventory.")
-                .onClick((p, m) -> {
+                .leftClick((p, m) -> {
                     if (!npc.hasTrait(Inventory.class)) {
                         player.sendMessage("§cFailed to open the inventory for this character.");
                         return ItemClickResult.NO_RESULT;
@@ -106,7 +94,7 @@ public class CharacterMenu {
                 .material(Material.IRON_CHESTPLATE)
                 .name("Equipment")
                 .lore("§eClick to edit this character's equipment.")
-                .onClick((p, m) -> {
+                .leftClick((p, m) -> {
                     if (!npc.isSpawned()) {
                         player.sendMessage("§cFailed to edit character because it is not spawned.");
                         return ItemClickResult.NO_RESULT;
@@ -121,7 +109,7 @@ public class CharacterMenu {
                 .material(Material.OAK_STAIRS)
                 .name("Sit")
                 .lore("§eClick to sit this character.")
-                .onClick((p, m) -> {
+                .leftClick((p, m) -> {
                     if (!npc.isSpawned()) {
                         player.sendMessage("§cFailed to edit character because it is not spawned.");
                         return ItemClickResult.NO_RESULT;
@@ -140,12 +128,48 @@ public class CharacterMenu {
                             at.setY(block.getY() + 0.5);
                         trait.setSitting(at);
                     }
-                    CitizensAPI.getNPCRegistry().saveToStore();
+                    ((Citizens) CitizensAPI.getPlugin()).storeNPCs(true);
                     return ItemClickResult.NO_RESULT;
                 })
         );
 
         menu.open(player);
+    }
+
+    public static void addCharacterStats(Menu menu, NPC npc) {
+        int i = 0;
+        for(CharacterStats stat : CharacterStats.values()) {
+            CharacterStatsTrait trait = npc.getOrAddTrait(CharacterStatsTrait.class);
+
+            int mod = trait.getStatModifier(stat);
+            String statModifierText = ((mod < 0) ? "§c" : (mod > 0) ? "§a+" : "§7") + mod;
+
+            Item item = new Item()
+                    .material(stat.getIcon())
+                    .name("§e" + Localization.valueOf("STAT_" + stat.name()).format())
+                    .lore("§e" + trait.getStat(stat) + " §7(" + statModifierText + "§7)",
+                            "",
+                            "§7Left-click to §cdecrease§7 by one.",
+                            "§7Right-click to §aincrease§7 by one.")
+                    .hideAttributes();
+
+            item.leftClick((p, m) -> {
+                int val = Math.max(0, trait.getStat(stat) - 1);
+                trait.setStat(stat, val);
+                ((Citizens) CitizensAPI.getPlugin()).storeNPCs(true);
+                addCharacterStats(m, npc);
+                return ItemClickResult.NO_RESULT;
+            });
+
+            item.rightClick((p, m) -> {
+                trait.setStat(stat, trait.getStat(stat) + 1);
+                ((Citizens) CitizensAPI.getPlugin()).storeNPCs(true);
+                addCharacterStats(m, npc);
+                return ItemClickResult.NO_RESULT;
+            });
+            menu.set(9 + i, item);
+            i++;
+        }
     }
 
 }
