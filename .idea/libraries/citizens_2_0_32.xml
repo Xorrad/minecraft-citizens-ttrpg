@@ -1,6 +1,8 @@
 <component name="libraryTable">
   <library name="citizens-2.0.32">
-    <CLASSES />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../__apis__/citizens-2.0.32.jar!/" />
+    </CLASSES>
     <JAVADOC />
     <SOURCES />
   </library>

@@ -24,6 +24,12 @@ public enum Localization {
 
     ERROR,
     SEPARATOR,
+
+    STAT_STRENGTH,
+    STAT_DEXTERITY,
+    STAT_CONSTITUTION,
+    STAT_INTELLIGENCE,
+    STAT_CHARISMA,
     ;
 
     private String format;

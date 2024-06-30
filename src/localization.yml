@@ -18,3 +18,9 @@ NAMEMANAGER_TEMPLATE_CHANGED: '&eThe &7%1$s &etemplate for &7%2$s&e is now &7"%3
 
 ERROR: '§cAn error occurred, contact an administrator for further details.'
 SEPARATOR: '&e&m───────────────────'
+
+STAT_STRENGTH: 'Strength'
+STAT_DEXTERITY: 'Dexterity'
+STAT_CONSTITUTION: 'Constitution'
+STAT_INTELLIGENCE: 'Intelligence'
+STAT_CHARISMA: 'Charisma'

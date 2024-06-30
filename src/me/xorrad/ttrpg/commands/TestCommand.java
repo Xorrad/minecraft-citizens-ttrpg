@@ -37,7 +37,7 @@ public class TestCommand extends CommandGroup {
         newSubCommand("gui")
                 .playerOnly(true)
                 .execute((sender, params) -> {
-                    CharacterMenu.open((Player) sender);
+                    //CharacterMenu.open((Player) sender);
                 });
     }
 }
