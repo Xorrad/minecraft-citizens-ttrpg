@@ -6,6 +6,8 @@ import me.xorrad.lib.ui.Menu;
 import me.xorrad.ttrpg.TTRPG;
 import me.xorrad.ttrpg.core.CharacterStats;
 import me.xorrad.ttrpg.core.Culture;
+import me.xorrad.ttrpg.core.Faith;
+import me.xorrad.ttrpg.core.traits.FaithTrait;
 import me.xorrad.ttrpg.core.traits.StatsTrait;
 import me.xorrad.ttrpg.core.traits.CultureTrait;
 import me.xorrad.ttrpg.localization.Localization;
@@ -28,7 +30,9 @@ public class CharacterMenu {
 
     public static void open(Player player, NPC npc) {
         Culture culture = npc.getOrAddTrait(CultureTrait.class).getCulture();
+        Faith faith = npc.getOrAddTrait(FaithTrait.class).getFaith();
         boolean hasCulture = (culture != null);
+        boolean hasFaith = (faith != null);
 
         Menu menu = new Menu()
             .title(Localization.CHARACTER_MENU_TITLE.format(npc.getName()))
@@ -57,9 +61,19 @@ public class CharacterMenu {
                     })
             )
             .add(new Item()
-                    .material(Material.NETHER_STAR)
-                    .name("§eReligion")
-                    .lore("§ePLACEHOLDER")
+                    .material(hasFaith ? Material.END_CRYSTAL : Material.BARRIER)
+                    .name("§eFaith")
+                    .lore(hasFaith ? "§e" + faith.getName() : "§cNone")
+                    .leftClick((p, m) -> {
+                        openChangeFaith(player, npc);
+                        return ItemClickResult.OPEN_INVENTORY;
+                    })
+                    .rightClick((p, m) -> {
+                        npc.getOrAddTrait(FaithTrait.class).setFaith(null);
+                        ((Citizens) CitizensAPI.getPlugin()).storeNPCs(true);
+                        m.set(2, m.get(2).material(Material.BARRIER).lore("§cNone"));
+                        return ItemClickResult.NO_RESULT;
+                    })
             );
 
         addCharacterStats(menu, npc);
@@ -233,6 +247,33 @@ public class CharacterMenu {
                 .hideAttributes()
                 .leftClick((p, m) -> {
                     npc.getOrAddTrait(CultureTrait.class).setCulture(culture);
+                    ((Citizens) CitizensAPI.getPlugin()).storeNPCs(true);
+                    menu.setClosed(true);
+                    open(player, npc);
+                    return ItemClickResult.NO_RESULT;
+                })
+            );
+        }
+
+        menu.open(player);
+    }
+
+    public static void openChangeFaith(Player player, NPC npc) {
+        Faith npcFaith = npc.getOrAddTrait(FaithTrait.class).getFaith();
+
+        Menu menu = new Menu()
+                .title("Choose a faith")
+                .size(6)
+                .onClick((p, item, event) -> { return true; });
+
+        for(Faith faith : TTRPG.getInstance().faiths.values()) {
+            menu.add(new Item()
+                .material((faith == npcFaith) ? Material.NETHER_STAR : Material.END_CRYSTAL)
+                .name("§e" + faith.getName())
+                .lore("§7Left-click to select this faith.")
+                .hideAttributes()
+                .leftClick((p, m) -> {
+                    npc.getOrAddTrait(FaithTrait.class).setFaith(faith);
                     ((Citizens) CitizensAPI.getPlugin()).storeNPCs(true);
                     menu.setClosed(true);
                     open(player, npc);

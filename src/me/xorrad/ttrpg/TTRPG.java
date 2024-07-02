@@ -3,9 +3,13 @@ package me.xorrad.ttrpg;
 import me.xorrad.lib.LibMain;
 import me.xorrad.lib.configs.Config;
 import me.xorrad.ttrpg.commands.CultureCommand;
+import me.xorrad.ttrpg.commands.FaithCommand;
 import me.xorrad.ttrpg.commands.TestCommand;
 import me.xorrad.ttrpg.configs.CulturesConfig;
+import me.xorrad.ttrpg.configs.FaithsConfig;
 import me.xorrad.ttrpg.core.Culture;
+import me.xorrad.ttrpg.core.Faith;
+import me.xorrad.ttrpg.core.traits.FaithTrait;
 import me.xorrad.ttrpg.core.traits.StatsTrait;
 import me.xorrad.ttrpg.core.traits.CultureTrait;
 import me.xorrad.ttrpg.events.PlayerEvents;
@@ -28,6 +32,7 @@ public class TTRPG extends JavaPlugin  {
 
     private HashMap<String, Config> configs;
     public HashMap<String, Culture> cultures;
+    public HashMap<String, Faith> faiths;
 
     @Override
     public void onLoad() {
@@ -51,23 +56,19 @@ public class TTRPG extends JavaPlugin  {
 
     private void initVariables() {
         this.cultures = new HashMap<>();
+        this.faiths = new HashMap<>();
     }
 
     private void initDependencies() {
         CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(StatsTrait.class));
         CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(CultureTrait.class));
-        //Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
-        //    @EventHandler
-        //    public void onCitizensEnable(CitizensEnableEvent ev) {
-        //        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(StatsTrait.class));
-        //        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(CultureTrait.class));
-        //    }
-        //}, this);
+        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(FaithTrait.class));
     }
 
     private void registerCommands() {
         new TestCommand().register();
         new CultureCommand().register();
+        new FaithCommand().register();
     }
 
     private void registerEvents() {
@@ -82,6 +83,7 @@ public class TTRPG extends JavaPlugin  {
         Localization.setActiveConfig(this.getConfig("localization"));
 
         this.loadConfig("cultures", new CulturesConfig());
+        this.loadConfig("faiths", new FaithsConfig());
     }
 
     public void loadConfig(String name, Config config) {

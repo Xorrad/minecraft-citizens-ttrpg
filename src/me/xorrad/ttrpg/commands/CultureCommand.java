@@ -26,9 +26,7 @@ public class CultureCommand extends CommandGroup {
     public CultureCommand() {
         super("culture");
 
-        newDefaultCommand().execute((sender, params) -> {
-            sender.sendMessage("The default command for " + this.getName() + " has been executed.");
-        });
+        //newDefaultCommand().execute((sender, params) -> {});
 
         newSubCommand("new")
                 .playerOnly(false)
