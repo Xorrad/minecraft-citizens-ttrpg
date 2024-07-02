@@ -167,6 +167,17 @@ public class CharacterMenu {
                 })
         );
 
+        menu.set(5*9+5, new Item()
+                .material(Material.STICK)
+                .name("Select")
+                .lore("§eClick to select this character.")
+                .leftClick((p, m) -> {
+                    //CitizensAPI.getDefaultNPCSelector().select(p, npc);
+                    p.performCommand("npc select " + npc.getId());
+                    return ItemClickResult.NO_RESULT;
+                })
+        );
+
         menu.open(player);
     }
 
@@ -210,7 +221,7 @@ public class CharacterMenu {
         Culture npcCulture = npc.getOrAddTrait(CultureTrait.class).getCulture();
 
         Menu menu = new Menu()
-                .title("§eChoose a culture")
+                .title("Choose a culture")
                 .size(6)
                 .onClick((p, item, event) -> { return true; });
 
