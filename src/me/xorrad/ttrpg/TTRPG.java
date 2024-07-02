@@ -10,6 +10,7 @@ import me.xorrad.ttrpg.configs.FaithsConfig;
 import me.xorrad.ttrpg.core.Culture;
 import me.xorrad.ttrpg.core.Faith;
 import me.xorrad.ttrpg.core.traits.FaithTrait;
+import me.xorrad.ttrpg.core.traits.FamilyTrait;
 import me.xorrad.ttrpg.core.traits.StatsTrait;
 import me.xorrad.ttrpg.core.traits.CultureTrait;
 import me.xorrad.ttrpg.events.PlayerEvents;
@@ -63,6 +64,7 @@ public class TTRPG extends JavaPlugin  {
         CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(StatsTrait.class));
         CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(CultureTrait.class));
         CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(FaithTrait.class));
+        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(FamilyTrait.class));
     }
 
     private void registerCommands() {

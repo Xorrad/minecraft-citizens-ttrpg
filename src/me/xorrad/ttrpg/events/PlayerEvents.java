@@ -36,7 +36,7 @@ public class PlayerEvents implements Listener {
             return;
 
         event.setCancelled(true);
-        CharacterMenu.open(player, npc);
+        new CharacterMenu(npc).open(player);
     }
 
 }
