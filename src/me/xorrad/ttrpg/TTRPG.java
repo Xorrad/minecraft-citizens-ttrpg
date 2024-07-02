@@ -5,9 +5,9 @@ import me.xorrad.lib.configs.Config;
 import me.xorrad.ttrpg.commands.CultureCommand;
 import me.xorrad.ttrpg.commands.TestCommand;
 import me.xorrad.ttrpg.configs.CulturesConfig;
-import me.xorrad.ttrpg.core.CharacterStats;
 import me.xorrad.ttrpg.core.Culture;
-import me.xorrad.ttrpg.core.traits.CharacterStatsTrait;
+import me.xorrad.ttrpg.core.traits.StatsTrait;
+import me.xorrad.ttrpg.core.traits.CultureTrait;
 import me.xorrad.ttrpg.events.PlayerEvents;
 import me.xorrad.ttrpg.localization.Localization;
 import me.xorrad.ttrpg.configs.LocalizationConfig;
@@ -38,10 +38,10 @@ public class TTRPG extends JavaPlugin  {
     @Override
     public void onEnable() {
         this.initVariables();
-        this.initDependencies();
         this.registerCommands();
         this.registerEvents();
         this.initConfigurations();
+        this.initDependencies();
     }
 
     @Override
@@ -54,12 +54,15 @@ public class TTRPG extends JavaPlugin  {
     }
 
     private void initDependencies() {
-        Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
-            @EventHandler
-            public void onCitizensEnable(CitizensEnableEvent ev) {
-                CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(CharacterStatsTrait.class));
-            }
-        }, this);
+        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(StatsTrait.class));
+        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(CultureTrait.class));
+        //Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+        //    @EventHandler
+        //    public void onCitizensEnable(CitizensEnableEvent ev) {
+        //        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(StatsTrait.class));
+        //        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(CultureTrait.class));
+        //    }
+        //}, this);
     }
 
     private void registerCommands() {

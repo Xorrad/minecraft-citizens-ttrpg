@@ -7,13 +7,13 @@ import net.citizensnpcs.api.util.DataKey;
 
 import java.util.HashMap;
 
-@TraitName("character_stats")
-public class CharacterStatsTrait extends Trait {
+@TraitName("statstait")
+public class StatsTrait extends Trait {
 
     private final HashMap<CharacterStats, Integer> stats;
 
-    public CharacterStatsTrait() {
-        super("character_stats");
+    public StatsTrait() {
+        super("statstait");
         this.stats = new HashMap<>();
     }
 
