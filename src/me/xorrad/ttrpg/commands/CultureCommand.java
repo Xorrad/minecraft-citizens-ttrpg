@@ -134,7 +134,7 @@ public class CultureCommand extends CommandGroup {
         String cultureName = ((String) params[1]).isEmpty() ? cultureId : (String) params[1];
 
         if(TTRPG.getInstance().cultures.containsKey(cultureId)) {
-            sender.sendMessage(Localization.CULTURE_EXISTS.format(cultureId));
+            sender.sendMessage(Localization.CMD_CULTURE_EXISTS.format(cultureId));
             return;
         }
 
@@ -143,14 +143,14 @@ public class CultureCommand extends CommandGroup {
         Culture culture = new Culture(cultureId, cultureName, nameManager);
         culture.save();
         TTRPG.getInstance().cultures.put(cultureId, culture);
-        sender.sendMessage(Localization.CULTURE_CREATED.format(cultureId));
+        sender.sendMessage(Localization.CMD_CULTURE_CREATED.format(cultureId));
     }
 
     public static void deleteCulture(CommandSender sender, Object[] objects) {
         String cultureId = ((String) objects[0]).toUpperCase();
 
         if(!TTRPG.getInstance().cultures.containsKey(cultureId)) {
-            sender.sendMessage(Localization.CULTURE_DOESNT_EXISTS.format(cultureId));
+            sender.sendMessage(Localization.CMD_CULTURE_DOESNT_EXIST.format(cultureId));
             return;
         }
 
@@ -159,7 +159,7 @@ public class CultureCommand extends CommandGroup {
         TTRPG.getInstance().getConfig("cultures").set(cultureId, null);
         TTRPG.getInstance().getConfig("cultures").save();
 
-        sender.sendMessage(Localization.CULTURE_DELETED.format(cultureId));
+        sender.sendMessage(Localization.CMD_CULTURE_DELETED.format(cultureId));
     }
 
     public static void addName(CommandSender sender, Object[] objects) {
@@ -168,12 +168,12 @@ public class CultureCommand extends CommandGroup {
         String name = (String) objects[2];
 
         if(!NameType.exists(nameTypeStr)) {
-            sender.sendMessage(Localization.NAMETYPE_INVALID.format(nameTypeStr));
+            sender.sendMessage(Localization.CMD_CULTURE_NAMETYPE_INVALID.format(nameTypeStr));
             return;
         }
 
         if(!TTRPG.getInstance().cultures.containsKey(cultureId)) {
-            sender.sendMessage(Localization.CULTURE_DOESNT_EXISTS.format(cultureId));
+            sender.sendMessage(Localization.CMD_CULTURE_DOESNT_EXIST.format(cultureId));
             return;
         }
 
@@ -181,13 +181,13 @@ public class CultureCommand extends CommandGroup {
         NameType nameType = NameType.valueOf(nameTypeStr.toUpperCase());
 
         if(!(culture.getNameManager() instanceof IListNamesManager)) {
-            sender.sendMessage(Localization.CULTURE_NO_MANUAL_NAMES.format(cultureId));
+            sender.sendMessage(Localization.CMD_CULTURE_NO_MANUAL_NAMES.format(cultureId));
             return;
         }
 
         ((IListNamesManager) culture.getNameManager()).addName(nameType, name);
         culture.save();
-        sender.sendMessage(Localization.CULTURE_NAME_ADDED.format(name, cultureId, nameType.name()));
+        sender.sendMessage(Localization.CMD_CULTURE_NAME_ADDED.format(name, cultureId, nameType.name()));
     }
 
     public static void removeName(CommandSender sender, Object[] objects) {
@@ -196,12 +196,12 @@ public class CultureCommand extends CommandGroup {
         String name = (String) objects[2];
 
         if(!NameType.exists(nameTypeStr)) {
-            sender.sendMessage(Localization.NAMETYPE_INVALID.format(nameTypeStr));
+            sender.sendMessage(Localization.CMD_CULTURE_NAMETYPE_INVALID.format(nameTypeStr));
             return;
         }
 
         if(!TTRPG.getInstance().cultures.containsKey(cultureId)) {
-            sender.sendMessage(Localization.CULTURE_DOESNT_EXISTS.format(cultureId));
+            sender.sendMessage(Localization.CMD_CULTURE_DOESNT_EXIST.format(cultureId));
             return;
         }
 
@@ -209,26 +209,26 @@ public class CultureCommand extends CommandGroup {
         NameType nameType = NameType.valueOf(nameTypeStr.toUpperCase());
 
         if(!(culture.getNameManager() instanceof IListNamesManager)) {
-            sender.sendMessage(Localization.CULTURE_NO_MANUAL_NAMES.format(cultureId));
+            sender.sendMessage(Localization.CMD_CULTURE_NO_MANUAL_NAMES.format(cultureId));
             return;
         }
 
         IListNamesManager manager = (IListNamesManager) culture.getNameManager();
 
         if(!manager.containsName(nameType, name)) {
-            sender.sendMessage(Localization.CULTURE_NAME_DOESNT_EXISTS.format(name, cultureId, nameType.name()));
+            sender.sendMessage(Localization.CMD_CULTURE_NAME_DOESNT_EXIST.format(name, cultureId, nameType.name()));
             return;
         }
 
         manager.removeName(nameType, name);
         culture.save();
-        sender.sendMessage(Localization.CULTURE_NAME_REMOVED.format(name, cultureId, nameType.name()));
+        sender.sendMessage(Localization.CMD_CULTURE_NAME_REMOVED.format(name, cultureId, nameType.name()));
     }
 
     public static void listCultures(CommandSender sender, Object[] objects)
     {
         sender.sendMessage(Localization.SEPARATOR.format());
-        sender.sendMessage("§eCultures:");
+        sender.sendMessage(Localization.CMD_CULTURE_LIST.format());
 
         if(sender instanceof Player)
         {
@@ -236,7 +236,7 @@ public class CultureCommand extends CommandGroup {
             {
                 TextComponent message = new TextComponent("§e- §7§n" + culture.getId() + "§r§7 \"" + culture.getName() + "\"");
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/culture info " + culture.getId()));
-                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Localization.CULTURE_SHOW.format(culture.getId())).create()));
+                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Localization.CMD_CULTURE_SHOW.format(culture.getId())).create()));
                 ((Player) sender).spigot().sendMessage(message);
             }
         }
@@ -253,16 +253,16 @@ public class CultureCommand extends CommandGroup {
         String cultureId = ((String) objects[0]).toUpperCase();
 
         if(!TTRPG.getInstance().cultures.containsKey(cultureId)) {
-            sender.sendMessage(Localization.CULTURE_DOESNT_EXISTS.format(cultureId));
+            sender.sendMessage(Localization.CMD_CULTURE_DOESNT_EXIST.format(cultureId));
             return;
         }
 
         Culture culture = TTRPG.getInstance().cultures.get(cultureId);
 
         sender.sendMessage(Localization.SEPARATOR.format());
-        sender.sendMessage("§e" + culture.getId() + ":");
-        sender.sendMessage("§eName: §7\"" + culture.getName() + "\"");
-        sender.sendMessage("§eNames Manager: §7");
+        sender.sendMessage(Localization.CMD_CULTURE_INFO.format(culture.getId()));
+        sender.sendMessage(Localization.CMD_CULTURE_INFO_NAME.format(culture.getName()));
+        sender.sendMessage(Localization.CMD_CULTURE_INFO_NAMEMANAGER.format());
         for(String s : culture.getNameManager().getResume())
             sender.sendMessage("   " + s);
         sender.sendMessage(Localization.SEPARATOR.format());
@@ -273,12 +273,12 @@ public class CultureCommand extends CommandGroup {
         String typeStr = ((String) objects[1]).toUpperCase();
 
         if(!TTRPG.getInstance().cultures.containsKey(cultureId)) {
-            sender.sendMessage(Localization.CULTURE_DOESNT_EXISTS.format(cultureId));
+            sender.sendMessage(Localization.CMD_CULTURE_DOESNT_EXIST.format(cultureId));
             return;
         }
 
         if(!NamesManager.Type.exists(typeStr)) {
-            sender.sendMessage(Localization.NAMEMANAGER_INVALID.format(typeStr));
+            sender.sendMessage(Localization.CMD_CULTURE_NAMEMANAGER_INVALID.format(typeStr));
             return;
         }
 
@@ -290,7 +290,7 @@ public class CultureCommand extends CommandGroup {
             culture.setNamesManager(namesManager);
             culture.save();
 
-            sender.sendMessage(Localization.NAMEMANAGER_CHANGED.format(culture.getId(), type.name().toUpperCase()));
+            sender.sendMessage(Localization.CMD_CULTURE_NAMEMANAGER_CHANGED.format(culture.getId(), type.name().toUpperCase()));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -304,19 +304,17 @@ public class CultureCommand extends CommandGroup {
         int n = (int) objects[2];
 
         if(!TTRPG.getInstance().cultures.containsKey(cultureId)) {
-            sender.sendMessage(Localization.CULTURE_DOESNT_EXISTS.format(cultureId));
+            sender.sendMessage(Localization.CMD_CULTURE_DOESNT_EXIST.format(cultureId));
             return;
         }
 
         if(!NameType.exists(nameTypeStr)) {
-            sender.sendMessage(Localization.NAMETYPE_INVALID.format(nameTypeStr));
+            sender.sendMessage(Localization.CMD_CULTURE_NAMETYPE_INVALID.format(nameTypeStr));
             return;
         }
 
         Culture culture = TTRPG.getInstance().cultures.get(cultureId);
         NameType type = NameType.valueOf(nameTypeStr);
-
-        // sender.sendMessage("§eNames generated for culture §7\"" + culture.getName() + "\"§e: ");
 
         for(int i = 0; i < n; i++)
         {
@@ -335,12 +333,12 @@ public class CultureCommand extends CommandGroup {
         String template = (String) objects[2];
 
         if(!TTRPG.getInstance().cultures.containsKey(cultureId)) {
-            sender.sendMessage(Localization.CULTURE_DOESNT_EXISTS.format(cultureId));
+            sender.sendMessage(Localization.CMD_CULTURE_DOESNT_EXIST.format(cultureId));
             return;
         }
 
         if(!NameType.exists(nameTypeStr)) {
-            sender.sendMessage(Localization.NAMETYPE_INVALID.format(nameTypeStr));
+            sender.sendMessage(Localization.CMD_CULTURE_NAMETYPE_INVALID.format(nameTypeStr));
             return;
         }
 
@@ -348,13 +346,13 @@ public class CultureCommand extends CommandGroup {
         NameType type = NameType.valueOf(nameTypeStr);
 
         if(!(culture.getNameManager() instanceof RinkworksNamesManager)) {
-            sender.sendMessage(Localization.NAMEMANAGER_TEMPLATE_UNSUPPORTED.format(nameTypeStr));
+            sender.sendMessage(Localization.CMD_CULTURE_NAMEMANAGER_TEMPLATE_UNSUPPORTED.format(nameTypeStr));
             return;
         }
 
         ((RinkworksNamesManager) culture.getNameManager()).setTemplate(type, template);
         culture.save();
 
-        sender.sendMessage(Localization.NAMEMANAGER_TEMPLATE_CHANGED.format(type.name().toLowerCase(), culture.getId(), template));
+        sender.sendMessage(Localization.CMD_CULTURE_NAMEMANAGER_TEMPLATE_CHANGED.format(type.name().toLowerCase(), culture.getId(), template));
     }
 }

@@ -7,6 +7,7 @@ import me.xorrad.ttrpg.commands.FaithCommand;
 import me.xorrad.ttrpg.commands.TestCommand;
 import me.xorrad.ttrpg.configs.CulturesConfig;
 import me.xorrad.ttrpg.configs.FaithsConfig;
+import me.xorrad.ttrpg.configs.PluginConfig;
 import me.xorrad.ttrpg.core.Culture;
 import me.xorrad.ttrpg.core.Faith;
 import me.xorrad.ttrpg.core.traits.FaithTrait;
@@ -14,14 +15,12 @@ import me.xorrad.ttrpg.core.traits.FamilyTrait;
 import me.xorrad.ttrpg.core.traits.StatsTrait;
 import me.xorrad.ttrpg.core.traits.CultureTrait;
 import me.xorrad.ttrpg.events.PlayerEvents;
+import me.xorrad.ttrpg.localization.Language;
 import me.xorrad.ttrpg.localization.Localization;
 import me.xorrad.ttrpg.configs.LocalizationConfig;
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.event.CitizensEnableEvent;
 import net.citizensnpcs.api.trait.TraitInfo;
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -35,10 +34,13 @@ public class TTRPG extends JavaPlugin  {
     public HashMap<String, Culture> cultures;
     public HashMap<String, Faith> faiths;
 
+    public Language language;
+
     @Override
     public void onLoad() {
         instance = this;
         LibMain.instance = this;
+        this.language = Language.en_US;
     }
 
     @Override
@@ -81,6 +83,8 @@ public class TTRPG extends JavaPlugin  {
     private void initConfigurations() {
         this.configs = new HashMap<String, Config>();
 
+        this.loadConfig("config", new PluginConfig());
+
         this.loadConfig("localization", new LocalizationConfig());
         Localization.setActiveConfig(this.getConfig("localization"));
 
@@ -95,6 +99,12 @@ public class TTRPG extends JavaPlugin  {
 
     public Config getConfig(String name) {
         return this.configs.get(name);
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+        if(this.configs.containsKey("localization"))
+            ((LocalizationConfig) this.configs.get("localization")).setActiveLanguage(this.language);
     }
 
     public static void log(String format, Object... args) {

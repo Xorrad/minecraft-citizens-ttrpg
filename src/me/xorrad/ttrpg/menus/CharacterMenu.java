@@ -64,7 +64,7 @@ public class CharacterMenu extends Menu {
         this.npc = npc;
 
         // Initialize the menu.
-        this.title(Localization.CHARACTER_MENU_TITLE.format(npc.getName()));
+        this.title(Localization.MENU_TITLE_CHARACTER.format(npc.getName()));
         this.size(6);
         this.onClick((p, item, event) -> { return true; });
 
@@ -97,15 +97,15 @@ public class CharacterMenu extends Menu {
 
         this.set(row*9 + 0, new Item()
             .material(Material.PLAYER_HEAD)
-            .name("§eName")
-            .lore("§e" + npc.getName())
+            .name(Localization.NAME.format())
+            .lore("§f" + npc.getName())
             .head(SkinUtil.getNPCProfile(npc))
         );
 
         this.set(row*9 + 1, new Item()
             .material(hasCulture ? Material.FLOWER_BANNER_PATTERN : Material.BARRIER)
-            .name("§eCulture")
-            .lore(hasCulture ? "§e" + culture.getName() : "§cNone")
+            .name(Localization.CULTURE.format())
+            .lore(hasCulture ? "§f" + culture.getName() : Localization.NONE.format())
             .hideAttributes()
             .leftClick((p, m) -> {
                 openChangeCulture(p);
@@ -121,8 +121,8 @@ public class CharacterMenu extends Menu {
 
         this.set(row*9 + 2, new Item()
             .material(hasFaith ? Material.END_CRYSTAL : Material.BARRIER)
-            .name("§eFaith")
-            .lore(hasFaith ? "§e" + faith.getName() : "§cNone")
+            .name(Localization.FAITH.format())
+            .lore(hasFaith ? "§f" + faith.getName() : Localization.NONE.format())
             .leftClick((p, m) -> {
                 openChangeFaith(p);
                 return ItemClickResult.OPEN_INVENTORY;
@@ -150,11 +150,11 @@ public class CharacterMenu extends Menu {
 
             this.set(row*9 + i, new Item()
                 .material(stat.getIcon())
-                .name("§e" + Localization.valueOf("STAT_" + stat.name()).format())
-                .lore("§e" + trait.getStat(stat) + " §7(" + statModifierText + "§7)",
+                .name(Localization.valueOf("STAT_" + stat.name()).format())
+                .lore("§f" + trait.getStat(stat) + " §7(" + statModifierText + "§7)",
                         "",
-                        "§7Left-click to §cdecrease§7 by one.",
-                        "§7Right-click to §aincrease§7 by one.")
+                        Localization.DECREASE_BY_ONE.format(),
+                        Localization.INCREASE_BY_ONE.format())
                 .hideAttributes()
                 .leftClick((p, m) -> {
                     int val = Math.max(0, trait.getStat(stat) - 1);
@@ -183,13 +183,11 @@ public class CharacterMenu extends Menu {
 
         int i = 0;
         for(FamilyTrait.Role role : FamilyTrait.Role.values()) {
-            String roleName = role.name().toLowerCase();
-            roleName = roleName.substring(0, 1).toUpperCase() + roleName.substring(1);
-            this.set(row * 9 + i, makeFamilyHeadItem("§e" + roleName, family.getRelative(role))
+            this.set(row * 9 + i, makeFamilyHeadItem("§e" + Localization.valueOf("FAMILY_" + role.name()).format(), family.getRelative(role))
                     .leftClick((p, m) -> {
                         openChangeFamily(p, newRelative -> {
                             family.setRelative(role, newRelative);
-                            p.sendMessage("§a" + npc.getName() + "§e's " + role.name().toLowerCase() + " set to §a" + newRelative.getName());
+                            p.sendMessage(Localization.FAMILY_CHANGED.format(npc.getName(), role.name().toLowerCase(), newRelative.getName()));
                             this.saveNPC();
                         });
                         return ItemClickResult.CLOSE_INVENTORY;
@@ -212,7 +210,7 @@ public class CharacterMenu extends Menu {
         }
 
         for(NPC child : family.getChildren()) {
-            this.set(row * 9 + i, makeFamilyHeadItem("§eChild", child));
+            this.set(row * 9 + i, makeFamilyHeadItem(Localization.FAMILY_CHILD.format(), child));
             i++;
         }
     }
@@ -224,8 +222,8 @@ public class CharacterMenu extends Menu {
 
         this.set(row*9 + 0, new Item()
                 .material(Material.SADDLE)
-                .name("Mount")
-                .lore("§eClick to mount character.")
+                .name(Localization.MOUNT.format())
+                .lore(Localization.MOUNT_DESC.format())
                 .leftClick((p, m) -> {
                     if (!npc.isSpawned()) {
                         p.sendMessage("§cFailed to mount character because it is not spawned.");
@@ -240,8 +238,8 @@ public class CharacterMenu extends Menu {
 
         this.set(row*9 + 1, new Item()
                 .material(Material.CHEST)
-                .name("Inventory")
-                .lore("§eClick to open this character's inventory.")
+                .name(Localization.INVENTORY.format())
+                .lore(Localization.INVENTORY_DESC.format())
                 .leftClick((p, m) -> {
                     if (!npc.hasTrait(Inventory.class)) {
                         p.sendMessage("§cFailed to open the inventory for this character.");
@@ -256,8 +254,8 @@ public class CharacterMenu extends Menu {
 
         this.set(row*9 + 2, new Item()
                 .material(Material.IRON_CHESTPLATE)
-                .name("Equipment")
-                .lore("§eClick to edit this character's equipment.")
+                .name(Localization.EQUIP.format())
+                .lore(Localization.EQUIP_DESC.format())
                 .leftClick((p, m) -> {
                     if (!npc.isSpawned()) {
                         p.sendMessage("§cFailed to edit character because it is not spawned.");
@@ -271,8 +269,8 @@ public class CharacterMenu extends Menu {
 
         this.set(row*9 + 3, new Item()
                 .material(Material.OAK_STAIRS)
-                .name("Sit")
-                .lore("§eClick to sit this character.")
+                .name(Localization.SIT.format())
+                .lore(Localization.SIT_DESC.format())
                 .leftClick((p, m) -> {
                     if (!npc.isSpawned()) {
                         p.sendMessage("§cFailed to edit character because it is not spawned.");
@@ -299,8 +297,8 @@ public class CharacterMenu extends Menu {
 
         this.set(row*9 + 4, new Item()
                 .material(Material.FEATHER)
-                .name("Follow")
-                .lore("§eClick to make this character follow/unfollow you.")
+                .name(Localization.FOLLOW.format())
+                .lore(Localization.FOLLOW_DESC.format())
                 .leftClick((p, m) -> {
                     if (!npc.isSpawned()) {
                         p.sendMessage("§cFailed to edit character because it is not spawned.");
@@ -320,8 +318,8 @@ public class CharacterMenu extends Menu {
 
         this.set(row*9 + 5, new Item()
                 .material(Material.STICK)
-                .name("Select")
-                .lore("§eClick to select this character.")
+                .name(Localization.SELECT.format())
+                .lore(Localization.SELECT_DESC.format())
                 .leftClick((p, m) -> {
                     p.performCommand("npc select " + npc.getId());
                     return ItemClickResult.NO_RESULT;
@@ -345,7 +343,7 @@ public class CharacterMenu extends Menu {
         Culture npcCulture = npc.getOrAddTrait(CultureTrait.class).getCulture();
 
         Menu menu = new Menu()
-                .title("Choose a culture")
+                .title(Localization.MENU_TITLE_CHANGE_CULTURE.format(npc.getName()))
                 .size(6)
                 .onClick((p, item, event) -> { return true; });
 
@@ -353,7 +351,7 @@ public class CharacterMenu extends Menu {
             menu.add(new Item()
                 .material((culture == npcCulture) ? Material.NETHER_STAR : Material.FLOWER_BANNER_PATTERN)
                 .name("§e" + culture.getName())
-                .lore("§7Left-click to select this culture.")
+                .lore(Localization.CULTURE_SELECT.format())
                 .hideAttributes()
                 .leftClick((p, m) -> {
                     npc.getOrAddTrait(CultureTrait.class).setCulture(culture);
@@ -372,7 +370,7 @@ public class CharacterMenu extends Menu {
         Faith npcFaith = npc.getOrAddTrait(FaithTrait.class).getFaith();
 
         Menu menu = new Menu()
-                .title("Choose a faith")
+                .title(Localization.MENU_TITLE_CHANGE_FAITH.format())
                 .size(6)
                 .onClick((p, item, event) -> { return true; });
 
@@ -380,7 +378,7 @@ public class CharacterMenu extends Menu {
             menu.add(new Item()
                 .material((faith == npcFaith) ? Material.NETHER_STAR : Material.END_CRYSTAL)
                 .name("§e" + faith.getName())
-                .lore("§7Left-click to select this faith.")
+                .lore(Localization.FAITH.format())
                 .hideAttributes()
                 .leftClick((p, m) -> {
                     npc.getOrAddTrait(FaithTrait.class).setFaith(faith);
@@ -397,7 +395,7 @@ public class CharacterMenu extends Menu {
 
     public void openChangeFamily(Player player, Consumer<NPC> applyFunction) {
         player.closeInventory();
-        player.sendMessage("§eLeft-click on the character you want to assign as a relative.");
+        player.sendMessage(Localization.FAMILY_SELECT.format());
 
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
@@ -424,13 +422,13 @@ public class CharacterMenu extends Menu {
             return new Item()
                 .material(Material.BARRIER)
                 .name(title)
-                .lore("§cNone");
+                .lore(Localization.NONE.format());
         }
 
         return new Item()
                 .material(Material.PLAYER_HEAD)
                 .name(title)
-                .lore("§e" + relative.getName())
+                .lore("§f" + relative.getName())
                 .head(SkinUtil.getNPCProfile(relative));
     }
 
