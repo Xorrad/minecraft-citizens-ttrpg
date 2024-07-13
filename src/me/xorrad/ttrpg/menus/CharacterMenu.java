@@ -7,10 +7,8 @@ import me.xorrad.ttrpg.TTRPG;
 import me.xorrad.ttrpg.core.CharacterStats;
 import me.xorrad.ttrpg.core.Culture;
 import me.xorrad.ttrpg.core.Faith;
-import me.xorrad.ttrpg.core.traits.FaithTrait;
-import me.xorrad.ttrpg.core.traits.FamilyTrait;
-import me.xorrad.ttrpg.core.traits.StatsTrait;
-import me.xorrad.ttrpg.core.traits.CultureTrait;
+import me.xorrad.ttrpg.core.Personality;
+import me.xorrad.ttrpg.core.traits.*;
 import me.xorrad.ttrpg.localization.Localization;
 import me.xorrad.ttrpg.util.SkinUtil;
 import net.citizensnpcs.Citizens;
@@ -74,6 +72,7 @@ public class CharacterMenu extends Menu {
     private void update() {
         this.updateInfo();
         this.updateStats();
+        this.updatePersonalities();
         this.updateFamily();
         this.updateActions();
         this.updateRowBorders();
@@ -174,6 +173,48 @@ public class CharacterMenu extends Menu {
         }
     }
 
+    private void updatePersonalities() {
+        final int row = 2;
+        PersonalityTrait trait = npc.getOrAddTrait(PersonalityTrait.class);
+
+        for(int i = 0; i < 9; i++) {
+            this.set(row*9 + i, new Item().material(Material.AIR));
+        }
+
+        int i = 0;
+        for(Personality personality : trait.getPersonalities()) {
+            this.set(row*9 + i, new Item()
+                .material(personality.getIcon())
+                .name("§e" + personality.getName())
+                .lore("§f" + personality.getDescription(),
+                        "",
+                        "§7Right-click to §cremove§7 this personality trait.")
+                .hideAttributes()
+                .leftClick((p, m) -> {
+                    return ItemClickResult.NO_RESULT;
+                })
+                .rightClick((p, m) -> {
+                    trait.removePersonality(personality);
+                    this.saveNPC();
+                    this.updatePersonalities();
+                    return ItemClickResult.NO_RESULT;
+                })
+            );
+            i++;
+        }
+
+        this.set(row*9 + i, new Item()
+                .material(Material.BARRIER)
+                .name("§cAdd trait")
+                .leftClick((p, m) -> {
+                    openPersonalityTrait(p);
+                    this.saveNPC();
+                    this.updatePersonalities();
+                    return ItemClickResult.NO_RESULT;
+                })
+        );
+    }
+
     // Update items for character family members
     // such as: father, mother, partner and children.
     private void updateFamily() {
@@ -183,7 +224,7 @@ public class CharacterMenu extends Menu {
 
         int i = 0;
         for(FamilyTrait.Role role : FamilyTrait.Role.values()) {
-            this.set(row * 9 + i, makeFamilyHeadItem("§e" + Localization.valueOf("FAMILY_" + role.name()).format(), family.getRelative(role))
+            this.set(row * 9 + i, makeFamilyHeadItem(Localization.valueOf("FAMILY_" + role.name()).format(), family.getRelative(role))
                     .leftClick((p, m) -> {
                         openChangeFamily(p, newRelative -> {
                             family.setRelative(role, newRelative);
@@ -329,7 +370,7 @@ public class CharacterMenu extends Menu {
 
     // Add glass pane borders between specific rows.
     private void updateRowBorders() {
-        addBorder(2);
+        // addBorder(2);
         addBorder(4);
     }
 
@@ -387,6 +428,31 @@ public class CharacterMenu extends Menu {
                     this.reopen(player);
                     return ItemClickResult.NO_RESULT;
                 })
+            );
+        }
+
+        menu.open(player);
+    }
+
+    public void openPersonalityTrait(Player player) {
+        Menu menu = new Menu()
+                .title(Localization.MENU_TITLE_CHANGE_PERSONALITY.format())
+                .size(6)
+                .onClick((p, item, event) -> { return true; });
+
+        for(Personality trait : Personality.values()) {
+            menu.add(new Item()
+                    .material(trait.getIcon())
+                    .name("§e" + trait.getName())
+                    .lore("§f" + trait.getDescription())
+                    .hideAttributes()
+                    .leftClick((p, m) -> {
+                        npc.getOrAddTrait(PersonalityTrait.class).addPersonality(trait);
+                        this.saveNPC();
+                        menu.setClosed(true);
+                        this.reopen(player);
+                        return ItemClickResult.NO_RESULT;
+                    })
             );
         }
 

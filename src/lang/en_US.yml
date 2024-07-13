@@ -1,6 +1,7 @@
 MENU_TITLE_CHARACTER: '%1$s'
 MENU_TITLE_CHANGE_CULTURE: 'Choose a culture'
 MENU_TITLE_CHANGE_FAITH: 'Choose a faith'
+MENU_TITLE_CHANGE_PERSONALITY: 'Choose a personality'
 
 CULTURE_SELECT: '&7Left-click to select this culture.'
 FAITH_SELECT: '&7Left-click to select this faith.'
