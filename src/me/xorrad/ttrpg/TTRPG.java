@@ -5,22 +5,22 @@ import me.xorrad.lib.configs.Config;
 import me.xorrad.ttrpg.commands.CultureCommand;
 import me.xorrad.ttrpg.commands.FaithCommand;
 import me.xorrad.ttrpg.commands.TestCommand;
-import me.xorrad.ttrpg.configs.CulturesConfig;
-import me.xorrad.ttrpg.configs.FaithsConfig;
-import me.xorrad.ttrpg.configs.PluginConfig;
+import me.xorrad.ttrpg.commands.WarpCommand;
+import me.xorrad.ttrpg.configs.*;
 import me.xorrad.ttrpg.core.Culture;
 import me.xorrad.ttrpg.core.Faith;
+import me.xorrad.ttrpg.core.Warp;
 import me.xorrad.ttrpg.core.traits.*;
 import me.xorrad.ttrpg.events.PlayerEvents;
 import me.xorrad.ttrpg.localization.Language;
 import me.xorrad.ttrpg.localization.Localization;
-import me.xorrad.ttrpg.configs.LocalizationConfig;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.trait.TraitInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -30,6 +30,7 @@ public class TTRPG extends JavaPlugin  {
     private HashMap<String, Config> configs;
     public HashMap<String, Culture> cultures;
     public HashMap<String, Faith> faiths;
+    public HashMap<String, Warp> warps;
 
     public Language language;
 
@@ -57,6 +58,7 @@ public class TTRPG extends JavaPlugin  {
     private void initVariables() {
         this.cultures = new HashMap<>();
         this.faiths = new HashMap<>();
+        this.warps = new HashMap<>();
     }
 
     private void initDependencies() {
@@ -71,6 +73,7 @@ public class TTRPG extends JavaPlugin  {
         new TestCommand().register();
         new CultureCommand().register();
         new FaithCommand().register();
+        new WarpCommand().register();
     }
 
     private void registerEvents() {
@@ -88,6 +91,7 @@ public class TTRPG extends JavaPlugin  {
 
         this.loadConfig("cultures", new CulturesConfig());
         this.loadConfig("faiths", new FaithsConfig());
+        this.loadConfig("warps", new WarpsConfig());
     }
 
     public void loadConfig(String name, Config config) {
