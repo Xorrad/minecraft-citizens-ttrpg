@@ -2,10 +2,7 @@ package me.xorrad.ttrpg;
 
 import me.xorrad.lib.LibMain;
 import me.xorrad.lib.configs.Config;
-import me.xorrad.ttrpg.commands.CultureCommand;
-import me.xorrad.ttrpg.commands.FaithCommand;
-import me.xorrad.ttrpg.commands.TestCommand;
-import me.xorrad.ttrpg.commands.WarpCommand;
+import me.xorrad.ttrpg.commands.*;
 import me.xorrad.ttrpg.configs.*;
 import me.xorrad.ttrpg.core.Culture;
 import me.xorrad.ttrpg.core.Faith;
@@ -74,6 +71,7 @@ public class TTRPG extends JavaPlugin  {
         new CultureCommand().register();
         new FaithCommand().register();
         new WarpCommand().register();
+        new CharCommand().register();
     }
 
     private void registerEvents() {
