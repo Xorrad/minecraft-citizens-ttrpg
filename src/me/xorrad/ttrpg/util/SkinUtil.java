@@ -14,13 +14,16 @@ import java.util.Base64;
 import java.util.UUID;
 
 public class SkinUtil {
+    public static String DEFAULT_SKIN = "ewogICJ0aW1lc3RhbXAiIDogMTcxOTY4MzQ4NzA2NywKICAicHJvZmlsZUlkIiA6ICJjNjM0MTJlZmJiMmY0MmY5OTNjYWQ3YzlhMjQwZDhiNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJjX2hpZWYiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmYxYjA0MWRhMDkxYjlmYzY2ZDczZWQ2NDJmNmYxYTljN2FiNmFhMzBkY2RjZDNlODllZGI1YjAzMGI3YzY1MiIKICAgIH0KICB9Cn0=";
 
     public static String getNPCRawTexture(NPC npc) {
         SkinTrait skin = npc.getTraitNullable(SkinTrait.class);
         if(skin == null || skin.getTexture() == null)
-            return "ewogICJ0aW1lc3RhbXAiIDogMTcxOTY4MzQ4NzA2NywKICAicHJvZmlsZUlkIiA6ICJjNjM0MTJlZmJiMmY0MmY5OTNjYWQ3YzlhMjQwZDhiNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJjX2hpZWYiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmYxYjA0MWRhMDkxYjlmYzY2ZDczZWQ2NDJmNmYxYTljN2FiNmFhMzBkY2RjZDNlODllZGI1YjAzMGI3YzY1MiIKICAgIH0KICB9Cn0=";
+            return DEFAULT_SKIN;
             //return "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/393e453e02ed5fb54ab69cbb75a2cb3281de1c877dc65502ef669c09a589294e\"}}}";
-        return skin.getTexture();
+        String texture = skin.getTexture();
+
+        return texture.isEmpty() ? DEFAULT_SKIN : texture;
     }
 
     public static PlayerProfile getNPCProfile(NPC npc) {
