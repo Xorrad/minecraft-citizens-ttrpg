@@ -12,7 +12,7 @@ public class CitizensUtil {
     public static NPC spawnNPC(String name, Location location) {
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
         npc.setProtected(false);
-        npc.data().setPersistent(NPC.Metadata.COLLIDABLE, true);
+        npc.data().setPersistent(NPC.Metadata.COLLIDABLE, false);
         npc.setAlwaysUseNameHologram(false);
         npc.spawn(location);
         return npc;

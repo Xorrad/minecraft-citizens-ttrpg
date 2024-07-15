@@ -2,6 +2,7 @@ package me.xorrad.ttrpg.core.names;
 
 import me.xorrad.ttrpg.core.Culture;
 import me.xorrad.ttrpg.core.names.types.ListNamesManager;
+import me.xorrad.ttrpg.core.names.types.NameyNamesManager;
 import me.xorrad.ttrpg.core.names.types.RinkworksNamesManager;
 
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ public abstract class NamesManager {
 
     public enum Type {
         LIST(ListNamesManager.class),
-        RINKWORKS(RinkworksNamesManager.class);
+        RINKWORKS(RinkworksNamesManager.class),
+        NAMEY(NameyNamesManager.class);
 
         private Class<? extends NamesManager> clazz;
 

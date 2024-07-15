@@ -29,7 +29,7 @@ public class CharCommand extends CommandGroup {
         newSubCommand("new")
                 .playerOnly(true)
                 .param(new CommandParameter("culture", CommandParameter.Type.STRING))
-                .param(new CommandParameter("gender", CommandParameter.Type.STRING))
+                .param(new CommandParameter("gender", CommandParameter.Type.STRING, "MALE"))
                 .complete((sender, args) -> {
                     if(args.length == 1) return TTRPG.getInstance().cultures.values().stream().map(Culture::getId).filter(s -> s.startsWith(args[0].toUpperCase())).toList();
                     if(args.length == 2) return Arrays.stream(NameType.values()).map(NameType::name).filter(s -> s.startsWith(args[1].toUpperCase())).toList();

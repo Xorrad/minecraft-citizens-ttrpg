@@ -72,6 +72,24 @@ public enum Localization {
     FOLLOW_DESC,
     SELECT,
     SELECT_DESC,
+
+    LOYAL,
+    LOYAL_DESC,
+    DISLOYAL,
+    DISLOYAL_DESC,
+    GREEDY,
+    GREEDY_DESC,
+    GENEROUS,
+    GENEROUS_DESC,
+    DILIGENT,
+    DILIGENT_DESC,
+    LAZY,
+    LAZY_DESC,
+    CHASTE,
+    CHASTE_DESC,
+    LUSTFUL,
+    LUSTFUL_DESC,
+
     ;
 
     private String format;

@@ -30,8 +30,7 @@ public class ListNamesManager extends NamesManager implements IListNamesManager 
         return new File(TTRPG.getInstance().getDataFolder() + "/" + this.filePath, nameType.name().toLowerCase() + ".txt");
     }
 
-    public void setFilePath(String filePath)
-    {
+    public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
 
@@ -119,6 +118,17 @@ public class ListNamesManager extends NamesManager implements IListNamesManager 
             this.names.put(nameType, new ArrayList<String>());
 
             File file = this.getFile(nameType);
+
+            try {
+                if (!file.exists()) {
+                    file.getParentFile().mkdirs();
+                    file.createNewFile();
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
             try {
                 Scanner scanner = new Scanner(file);
                 while (scanner.hasNextLine()) {
