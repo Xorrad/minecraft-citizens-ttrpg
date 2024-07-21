@@ -1,7 +1,6 @@
 package me.xorrad.ttrpg.core.traits;
 
 import me.xorrad.ttrpg.TTRPG;
-import me.xorrad.ttrpg.core.Culture;
 import me.xorrad.ttrpg.core.Personality;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
@@ -34,11 +33,16 @@ public class PersonalityTrait extends Trait {
 
     @Override
     public void load(DataKey key) {
-        String[] ss = key.getString("personalities").split(",");
+        String[] ss = key.getString("personalities", "").split(",");
 
         for(String s : ss) {
-            Personality p = Personality.valueOf(s);
-            this.personalities.add(p);
+            if(s.isBlank())
+                continue;
+            try {
+                Personality p = Personality.valueOf(s);
+                this.personalities.add(p);
+            }
+            catch(Exception ignored) {}
         }
     }
 

@@ -26,7 +26,7 @@ public class FaithTrait extends Trait {
 
     @Override
     public void load(DataKey key) {
-        this.faith = TTRPG.getInstance().faiths.getOrDefault(key.getString("id"), null);
+        this.faith = TTRPG.getInstance().faiths.getOrDefault(key.getString("id", ""), null);
     }
 
     @Override

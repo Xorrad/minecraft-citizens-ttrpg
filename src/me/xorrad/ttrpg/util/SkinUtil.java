@@ -20,10 +20,7 @@ public class SkinUtil {
         SkinTrait skin = npc.getTraitNullable(SkinTrait.class);
         if(skin == null || skin.getTexture() == null)
             return DEFAULT_SKIN;
-            //return "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/393e453e02ed5fb54ab69cbb75a2cb3281de1c877dc65502ef669c09a589294e\"}}}";
-        String texture = skin.getTexture();
-
-        return texture.isEmpty() ? DEFAULT_SKIN : texture;
+        return skin.getTexture();
     }
 
     public static PlayerProfile getNPCProfile(NPC npc) {
@@ -34,11 +31,17 @@ public class SkinUtil {
             String base64 = getNPCRawTexture(npc);
             URL url = getSkinURL(base64);
             textures.setSkin(url);
-            profile.setTextures(textures);
         }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
+        catch (Exception e) {
+            try {
+                URL url = getSkinURL(DEFAULT_SKIN);
+                textures.setSkin(url);
+            }
+            catch (Exception e1) {
+                e1.printStackTrace();
+            }
         }
+        profile.setTextures(textures);
         return profile;
     }
 

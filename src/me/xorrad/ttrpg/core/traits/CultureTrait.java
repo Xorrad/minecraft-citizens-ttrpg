@@ -28,7 +28,7 @@ public class CultureTrait extends Trait {
 
     @Override
     public void load(DataKey key) {
-        this.cultureId = key.getString("id");
+        this.cultureId = key.getString("id", "");
     }
 
     @Override

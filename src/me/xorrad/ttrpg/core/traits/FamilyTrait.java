@@ -72,16 +72,15 @@ public class FamilyTrait extends Trait {
     @Override
     public void load(DataKey key) {
         for(Role role : Role.values()) {
-            this.relatives.put(role, key.getInt(role.name().toLowerCase()));
+            this.relatives.put(role, key.getInt(role.name().toLowerCase(), -1));
         }
-        this.children = new ArrayList<>(Arrays.stream(key.getString("children").split(",")).map(Integer::parseInt).toList());
+        this.children = new ArrayList<>(Arrays.stream(key.getString("children", "").split(",")).filter(s -> !s.isBlank()).map(Integer::parseInt).toList());
     }
 
     @Override
     public void save(DataKey key) {
         for(Role role : Role.values()) {
             key.setInt(role.name().toLowerCase(), this.relatives.getOrDefault(role, -1));
-            this.relatives.put(role, key.getInt(role.name().toLowerCase()));
         }
         key.setString("children", children.stream().map(String::valueOf).collect(Collectors.joining(",")));
     }
