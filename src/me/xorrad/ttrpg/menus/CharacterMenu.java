@@ -314,7 +314,7 @@ public class CharacterMenu extends Menu {
                 .lore(Localization.SIT_DESC.format())
                 .leftClick((p, m) -> {
                     if (!npc.isSpawned()) {
-                        p.sendMessage("§cFailed to edit character because it is not spawned.");
+                        p.sendMessage("§cFailed to sit character because it is not spawned.");
                         return ItemClickResult.NO_RESULT;
                     }
                     SitTrait trait = (SitTrait)npc.getOrAddTrait(SitTrait.class);
@@ -325,8 +325,9 @@ public class CharacterMenu extends Menu {
                     }
                     else {
                         Location at = npc.getStoredLocation();
-                        Block block = at.getWorld().getHighestBlockAt(at);
-                        at.setY(block.getY() + 1);
+                        // Block block = at.getWorld().getHighestBlockAt(at);
+                        at.setY(at.getY() - 1);
+                        Block block = at.getBlock();
                         if(block.getType().name().contains("STAIRS") || block.getType().name().contains("SLAB"))
                             at.setY(block.getY() + 0.5);
                         trait.setSitting(at);
