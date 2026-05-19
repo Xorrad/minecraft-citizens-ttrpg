@@ -1,6 +1,6 @@
 package me.mimic.ttrpg.configs;
 
-import me.xorrad.lib.configs.Config;
+import me.mimic.lib.configs.Config;
 import me.mimic.ttrpg.TTRPG;
 import me.mimic.ttrpg.core.Culture;
 import me.mimic.ttrpg.core.names.NamesManager;

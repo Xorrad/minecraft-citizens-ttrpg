@@ -1,7 +1,7 @@
 package me.mimic.ttrpg.configs;
 
-import me.xorrad.lib.LibMain;
-import me.xorrad.lib.configs.Config;
+import me.mimic.lib.LibMain;
+import me.mimic.lib.configs.Config;
 import me.mimic.ttrpg.TTRPG;
 import me.mimic.ttrpg.localization.Language;
 import me.mimic.ttrpg.localization.Localization;

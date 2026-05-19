@@ -1,6 +1,6 @@
 package me.mimic.ttrpg.localization;
 
-import me.xorrad.lib.configs.Config;
+import me.mimic.lib.configs.Config;
 import org.bukkit.ChatColor;
 
 public enum Localization {

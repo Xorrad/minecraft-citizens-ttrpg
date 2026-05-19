@@ -1,15 +1,14 @@
 package me.mimic.ttrpg.menus;
 
 import me.mimic.ttrpg.core.traits.*;
-import me.xorrad.lib.ui.Item;
-import me.xorrad.lib.ui.ItemClickResult;
-import me.xorrad.lib.ui.Menu;
+import me.mimic.lib.ui.Item;
+import me.mimic.lib.ui.ItemClickResult;
+import me.mimic.lib.ui.Menu;
 import me.mimic.ttrpg.TTRPG;
 import me.mimic.ttrpg.core.CharacterStats;
 import me.mimic.ttrpg.core.Culture;
 import me.mimic.ttrpg.core.Faith;
 import me.mimic.ttrpg.core.Personality;
-import me.xorrad.ttrpg.core.traits.*;
 import me.mimic.ttrpg.localization.Localization;
 import me.mimic.ttrpg.util.SkinUtil;
 import net.citizensnpcs.Citizens;

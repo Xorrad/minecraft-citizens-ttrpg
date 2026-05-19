@@ -1,7 +1,7 @@
 package me.mimic.ttrpg.commands;
 
-import me.xorrad.lib.commands.CommandGroup;
-import me.xorrad.lib.commands.CommandParameter;
+import me.mimic.lib.commands.CommandGroup;
+import me.mimic.lib.commands.CommandParameter;
 import me.mimic.ttrpg.TTRPG;
 import me.mimic.ttrpg.core.Culture;
 import me.mimic.ttrpg.core.names.IListNamesManager;

@@ -3,19 +3,23 @@ package me.mimic.ttrpg;
 import me.mimic.ttrpg.commands.*;
 import me.mimic.ttrpg.configs.*;
 import me.mimic.ttrpg.core.traits.*;
-import me.xorrad.lib.LibMain;
-import me.xorrad.lib.configs.Config;
+import me.mimic.lib.LibMain;
+import me.mimic.lib.configs.Config;
 import me.mimic.ttrpg.core.Culture;
 import me.mimic.ttrpg.core.Faith;
+import me.mimic.ttrpg.events.NpcsEvents;
 import me.mimic.ttrpg.events.PlayerEvents;
 import me.mimic.ttrpg.localization.Language;
 import me.mimic.ttrpg.localization.Localization;
 import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.TraitInfo;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -25,6 +29,7 @@ public class TTRPG extends JavaPlugin  {
     private HashMap<String, Config> configs;
     public HashMap<String, Culture> cultures;
     public HashMap<String, Faith> faiths;
+    public HashMap<Player, ArrayList<NPC>> selectedNPCS;
 
     public Language language;
 
@@ -52,6 +57,7 @@ public class TTRPG extends JavaPlugin  {
     private void initVariables() {
         this.cultures = new HashMap<>();
         this.faiths = new HashMap<>();
+        this.selectedNPCS = new HashMap<>();
     }
 
     private void initDependencies() {
@@ -67,11 +73,13 @@ public class TTRPG extends JavaPlugin  {
         new CultureCommand().register();
         new FaithCommand().register();
         new CharCommand().register();
+        new NpcsCommand().register();
     }
 
     private void registerEvents() {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new PlayerEvents(), this);
+        pm.registerEvents(new NpcsEvents(), this);
     }
 
     private void initConfigurations() {
