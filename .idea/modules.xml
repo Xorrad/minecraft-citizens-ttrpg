@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/minecraft-citizens-ttrpg.iml" filepath="$PROJECT_DIR$/minecraft-citizens-ttrpg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/minecraft-mimic-ttrpg.iml" filepath="$PROJECT_DIR$/minecraft-mimic-ttrpg.iml" />
       <module fileurl="file://$PROJECT_DIR$/../minecraft-mimiclib/minecraft-mimiclib.iml" filepath="$PROJECT_DIR$/../minecraft-mimiclib/minecraft-mimiclib.iml" />
     </modules>
   </component>

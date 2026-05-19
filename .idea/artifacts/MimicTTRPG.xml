@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MimicTTRPG">
+    <output-path>$PROJECT_DIR$/../../..</output-path>
+    <root id="archive" name="Citizens-TTRPG.jar">
+      <element id="module-output" name="minecraft-mimic-ttrpg" />
+      <element id="module-output" name="minecraft-mimiclib" />
+    </root>
+  </artifact>
+</component>
